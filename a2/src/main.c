@@ -31,6 +31,7 @@ int* loadArr(char* file, int* size)
 void merge(int* a, int sa, int* b, int sb, int* main, int* inversions)
 {
 	int  i=0, j=0, k=0;
+	//loop through a pick the smallest numbers from the partioned arrays and put them in the main one
 	while (i < sa && j < sb)
 	{
 		if (a[i] < b[j])
@@ -42,6 +43,7 @@ void merge(int* a, int sa, int* b, int sb, int* main, int* inversions)
 		}
 		k++;
 	}
+	//put the remaining numbers in the main array
 	if (i == sa)
 		while (j < sb)
 			main[k++] = b[j++];
@@ -74,6 +76,7 @@ void* mergeSort(void* param)
 	int* arrA = malloc(sizeof(int)*sa);
 	int* arrB = malloc(sizeof(int)*sb);
 	int a;
+	//copy data from main array into partions
 	for (a = 0; a < sa; a++)
 		arrA[a] = arr[a];
 	for (int b = 0; b < sb; b++)
@@ -85,7 +88,7 @@ void* mergeSort(void* param)
 	//sort
 	int flag = 0;
 	pthread_t thread;
-
+	//attempt to create a new thread
 	if (*(data->threadsIsUse) < (data->maxThreads-1))
 	{
 		*(data->threadsIsUse) += 1;
@@ -108,7 +111,9 @@ void* mergeSort(void* param)
 	//merge
 	if (flag)
 		 pthread_join(thread,NULL);
+	//count inversions
 	data->inversions = dataA.inversions + dataB.inversions;
+	//merge data
 	merge(arrA, sa, arrB, sb, arr, &(data->inversions));
 	free(arrA);
 	free(arrB);
@@ -137,7 +142,7 @@ int q1 (char* file)
 	dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
 	printf("Brute Force: %dms\n", dif);
 	printf("Brute force inv: %d\n", inv);
-	//tmp array for testing
+	//tmp array for testing efficiency
 	/*int tmpS = 100000000;
 	int* arrtmp = malloc(sizeof(int)*tmpS);
 
@@ -168,14 +173,6 @@ int q1 (char* file)
 	printf("Div + conq: %dms\n", dif);
     printf("Div + conq inv: %d\n", (data.inversions));
 
-	/*for (int a = 0; a < 20; a++)
-		printf("%d\n", arr[a]);
-	for (int a = size-20; a < size; a++)
-		printf("%d\n", arr[a]);*/
-	/*for (int a = 0; a < 10; a++)
-		printf("%d\n", arrtmp[a]);
-	for (int a = tmpS-10; a < tmpS; a++)
-		printf("%d\n", arrtmp[a]);*/
     //free(arrtmp);
 	free(arr);
 	return 0;
@@ -183,7 +180,6 @@ int q1 (char* file)
 
 int main(int argc, char* argv[])
 {
-	//printf("inv %d\n", q1("data/q1"));
 	srand(time(NULL));
 	q1("data/q1");
 	return 0;
