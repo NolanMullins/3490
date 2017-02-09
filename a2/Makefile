@@ -1,7 +1,8 @@
 OBJQ1 = main.o
-FLAGS =-Wall -Iinclude -std=c99 -pthread
+FLAGS =-Wall -Iinclude -std=c99 
 EXE = run
 
+# -pthread
 
 all:$(OBJQ1) 
 	gcc $(OBJQ1) -o $(EXE) $(FLAGS)

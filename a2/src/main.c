@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <pthread.h>
-#include <unistd.h>
+//#include <pthread.h>
+//#include <unistd.h>
 #include <time.h>
 #include <sys/timeb.h>
 
@@ -86,31 +86,32 @@ void* mergeSort(void* param)
 	cpyData(data, &dataA, arrA, sa);
 	cpyData(data, &dataB, arrB, sb);
 	//sort
-	int flag = 0;
-	pthread_t thread;
-	//attempt to create a new thread
-	if (*(data->threadsIsUse) < (data->maxThreads-1))
-	{
-		*(data->threadsIsUse) += 1;
-		dataA.id = *(data->threadsIsUse);
-		//printf("Creating new Thread: %d\n", dataA.id);
-		flag = 1;
-		int sts = pthread_create(&thread, NULL, mergeSort, &dataA);
-		if (sts)
+		/*int flag = 0;
+		pthread_t thread;
+		//attempt to create a new thread
+		if (*(data->threadsIsUse) < (data->maxThreads-1))
 		{
-			printf("error creating thread, error code: %d\n", sts);
-			flag = 0;
-			mergeSort(&dataA);
+			*(data->threadsIsUse) += 1;
+			dataA.id = *(data->threadsIsUse);
+			//printf("Creating new Thread: %d\n", dataA.id);
+			flag = 1;
+			int sts = pthread_create(&thread, NULL, mergeSort, &dataA);
+			if (sts)
+			{
+				printf("error creating thread, error code: %d\n", sts);
+				flag = 0;
+				mergeSort(&dataA);
+			}
 		}
-	}
-	else
-	{
-		mergeSort(&dataA);
-	}
+		else
+		{
+			mergeSort(&dataA);
+		}*/
+	mergeSort(&dataA);
 	mergeSort(&dataB);
-	//merge
-	if (flag)
-		 pthread_join(thread,NULL);
+		//merge
+		/*if (flag)
+			 pthread_join(thread,NULL);*/
 	//count inversions
 	data->inversions = dataA.inversions + dataB.inversions;
 	//merge data
@@ -143,15 +144,15 @@ int q1 (char* file)
 	printf("Brute Force: %dms\n", dif);
 	printf("Brute force inv: %d\n", inv);
 	//tmp array for testing efficiency
-	/*int tmpS = 100000000;
+	/*int tmpS = 50000000;
 	int* arrtmp = malloc(sizeof(int)*tmpS);
 
 	for (int a = 0; a<tmpS; a++)
 		arrtmp[a] = rand()%(tmpS*1000) + 1;*/
 
 	//threading
-	int threadCount = sysconf(_SC_NPROCESSORS_ONLN);
-	printf("%d threads available\n", threadCount);
+	int threadCount = 0;/*sysconf(_SC_NPROCESSORS_ONLN);
+	printf("%d threads available\n", threadCount);*/
 	int threadUse = 0;
 	Data data;
 	data.id = 0;
