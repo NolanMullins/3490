@@ -1,21 +1,26 @@
 OBJQ1 = main.o
+OBJQ2 = q2.o
 FLAGS =-Wall -Iinclude -std=c99 
-EXE = run
+EXE1 = q1
+EXE2 = q2
 
 # -pthread
 
-all:$(OBJQ1) 
-	gcc $(OBJQ1) -o $(EXE) $(FLAGS)
+q2: $(OBJQ2) 
+	gcc $(OBJQ2) -o q2 $(FLAGS)
+
+q1: $(OBJQ1) 
+	gcc $(OBJQ1) -o $(EXE1) $(FLAGS)
+
 clean:
-	rm $(OBJQ1) $(EXE)
+	rm $(OBJQ1) $(OBJQ2) $(EXE1) $(EXE2)
+
 run:
 	./$(EXE)
 
-main.o: src/main.c 
-	gcc -c src/main.c $(FLAGS)
-list.o: src/list.c include/list.h
-	gcc -c src/list.c $(FLAGS) 
-util.o: src/util.c include/util.h
-	gcc -c src/util.c $(FLAGS)
-fnc.o: src/fnc.c include/fnc.h
-	gcc -c src/fnc.c $(FLAGS)
+#%.o: src/$*.c
+#	gcc -c src/$*.c $(FLAGS) -o $*.o
+q2.o : src/q2.c
+	gcc -c src/$*.c $(FLAGS) -o $*.o
+main.o : src/main.c
+	gcc -c src/$*.c $(FLAGS) -o $*.o
