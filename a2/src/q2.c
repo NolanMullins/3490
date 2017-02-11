@@ -13,14 +13,29 @@ void loadArr(char* file, double** arr, int* size)
 	*size = c/2;
 }
 
+void addPoint(double** pts, double* newpt, int* len)
+{
+	for (int a = 0; a < *len; a++)
+		if (pts[a][0] == newpt[0] && pts[a][1] == newpt[1])
+			return;
+	pts[*len][0] = newpt[0];
+	pts[*len][1] = newpt[1];
+	(*len)++;
+}
+
 int main(int argc, char* argv[])
 {
 	//load points into an arrya
 	double** arr = malloc(sizeof(double*)*50000);
 	for (int a = 0; a < 50000; a++)
 		arr[a] = malloc(sizeof(double)*2);
+
+	double** pts = malloc(sizeof(double*)*500);
+	for (int a = 0; a < 500; a++)
+		pts[a] = malloc(sizeof(double)*2);
+	int numPts = 0;
 	int size = 0;
-	loadArr("data/tmp", (double**)arr, &size);
+	loadArr("data/q2", (double**)arr, &size);
 	printf("Loaded\n");
 	/*for (int a = 0; a < size; a++)
 		printf("%lf %lf\n", arr[a][0], arr[a][1]);*/
@@ -64,19 +79,40 @@ int main(int argc, char* argv[])
 					}
 					flag = -1;
 				}
+				else if (value == 0)
+				{
+					//check to see if the point is inbetween p1 and p2
+					double dot = (x3 - x1) * (x2 - x1) + (y3 - y1)*(y2 - y1);
+					double len = (x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1);
+
+					//inbetween = contine
+					if (!(dot < 0 || dot > len))
+						continue;
+					flag = 0;
+					break;
+				}
 			}
+
 			if (flag != 0)
 			{
-				printf("Point:\n");
+				addPoint(pts, arr[a], &numPts);
+				addPoint(pts, arr[b], &numPts);
+				/*printf("Point:\n");
 				printf("%lf %lf\n", arr[a][0], arr[a][1]);
-				printf("%lf %lf\n", arr[b][0], arr[b][1]);
+				printf("%lf %lf\n", arr[b][0], arr[b][1]);*/
 			}
 		}
 	}
 
+	printf("Points\n");
+	for (int a = 0; a < numPts; a++)
+		printf("%lf %lf\n", pts[a][0], pts[a][1]);
 
 	//free memory
 	for (int a = 0; a < 50000; a++)
 		free(arr[a]);
 	free(arr);
+	for (int a = 0; a < 500; a++)
+		free(pts[a]);
+	free(pts);
 }
