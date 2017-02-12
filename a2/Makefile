@@ -1,6 +1,6 @@
 OBJQ1 = main.o
 OBJQ2 = q2.o
-OBJ = P11.o P12.o P21.o P22.o
+OBJ = P11.o P12.o P21.o P22.o gen.o
 OBJ2 = $(OBJ:.o=.tmp)
 FLAGS =-Wall -Iinclude -std=c99 -g
 EXE1 = q1
@@ -15,6 +15,13 @@ all: $(OBJ2)
 
 %.o : %.c
 	gcc -c $*.c $(FLAGS) -o $*.o
+
+run: test1 test2
+
+test1:
+	./P21
+test2:
+	./P22
 
 #q2: $(OBJQ2) 
 #	gcc $(OBJQ2) -o q2 $(FLAGS)

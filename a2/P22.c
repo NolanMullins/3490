@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void loadArr(char* file, double** arr, int* size)
 {
@@ -30,8 +31,15 @@ void merge(double** a, int sa, double** b, int sb, double** main)
 	{
 		if (a[i][0] < b[j][0])
 			main[k] = a[i++];
-		else
+		else if (a[i][0] > b[j][0])
 			main[k] = b[j++];
+		else
+		{
+			if (a[i][1] < b[j][1])
+				main[k] = a[i++];
+			else
+				main[k] = b[j++];
+		}
 		k++;
 	}
 	//put the remaining numbers in the main array
@@ -119,67 +127,71 @@ void addPoint(double** pts, double* newpt, int* len)
 	(*len)++;
 }
 
-float qsqrt(float n)
+double dist4(double* A, double* B, double* C)
 {
-	long i;
-	float x2, y;
-	x2 = n*.5;
-	y = n;
-	i = *(long*)&y;
-	i  = 0x5f3759df - ( i >> 1 );
-	y = *(float*)&i;
-	y = y*(1.5f-(x2*y*y));
-	return y;
-}
 
-double dist(double* A, double* B, double* pt)
-{
-	double y2My1 = B[1] - A[1];
-	double x2Mx1 = B[0] - A[0];
-	float sq = y2My1*y2My1 + x2Mx1*x2Mx1;
-	return (y2My1*pt[0] - x2Mx1*pt[1] + B[0]*A[1] - B[1]*A[0])/(1/qsqrt(sq));
+	return ((B[0] - A[0]) * (A[1] - C[1])) - ((B[1] - A[1]) * (A[0] - C[0]));
 }
 
 void findHull(double** arr, int size, double* A, double* B, double** pts, int* nPts)
 {
 	if (size < 1)
 		return;
-
 	double distMax =0;
 	int index = 0;
+	
+	/*printf("\n");
+	printf("A %lf, %lf\n", A[0], A[1]);
+	printf("B %lf, %lf\n", B[0], B[1]);*/
+
+	/*printf("Array\n");
+	for (int a = 0; a < size; a++)
+		printf("%lf, %lf\n", arr[a][0], arr[a][1]);
+	printf("\n");*/
+
 	for (int a = 0; a < size; a++)
 	{
-		double d = dist(A, B, arr[a]);
+		double d = dist4(A, B, arr[a]);
+		//printf("looking at: %lf, %lf, dist: %lf, dist4: %lf\n", arr[a][0], arr[a][1], d, dist4(A,B,arr[a]));
 		if (d > distMax)
+		{
+			distMax = d;
 			index = a;
+		}
 	}
 	addPoint(pts, arr[index], nPts);
-
 	double** arr1 = malloc(sizeof(double*)*size);
-	double** arr2 = malloc(size*sizeof(double*));
+	double** arr2 = malloc(sizeof(double*)*size);
 	int c1 = 0, c2 = 0;
-
+	
 	double* C = arr[index];
 
+	
+	/*printf("Found C, %lf %lf\n", C[0], C[1]);
+
+	printf("%lf, %lf to %lf, %lf\n", A[0], A[1], C[0], C[1]);
+	printf("%lf, %lf to %lf, %lf\n", C[0], C[1], B[0], B[1]);*/
 	//partition shit
-	for (int a = 1; a < size - 2; a++)
+	for (int a = 0; a < size; a++)
 	{
 		if (a==index)
 			continue;
 		double* D = arr[a];
 		//A to C to D
-		float v1 = (C[0] - A[0])*(D[1] - A[1]) - (D[0] - A[0])*(C[1] - A[1]);
+		double v1 = (C[0] - A[0])*(D[1] - A[1]) - (D[0] - A[0])*(C[1] - A[1]);
 		//C to B to D
-		float v2 = (B[0] - C[0])*(D[1] - C[1]) - (D[0] - C[0])*(B[0] - C[1]);
-		if (v1 > 0)
+		//double value = (x2 - x1)*(y3 - y1) - (x3 - x1)*(y2 - y1); C=X1 B=X2 D=X3
+		float v2 = (B[0]-C[0])*(D[1] - C[1]) - (D[0] - C[0])*(B[1] - C[1]);
+		//printf("looking at: %lf, %lf, v1: %lf, v2: %lf\n", arr[a][0], arr[a][1], v1, v2);
+		if (v1 < 0)
 			arr1[c1++] = arr[a];
-		else if (v2 > 0)
+		else if (v2 < 0)
 			arr2[c2++] = arr[a];
 	}
-
-	findHull(arr1, c1-1, A, C, pts, nPts);
-	findHull(arr2, c2-1, C, B, pts, nPts);
-
+	
+	findHull(arr1, c1, A, C, pts, nPts);
+	findHull(arr2, c2, C, B, pts, nPts);
+	
 	free(arr1);
 	free(arr2);
 }
@@ -195,18 +207,26 @@ void divHull(double** arr, int size, double** pts, int* nPts)
 	double** arr2 = malloc(sizeof(double*)*size);
 	int c1 = 0, c2 = 0;
 
-	double x1 = A[0], y1 = A[1], x2 = B[0], y2 = B[0];
-	for (int a = 1; a < size - 2; a++)
+	double x1 = A[0], y1 = A[1], x2 = B[0], y2 = B[1];
+
+	for (int a = 1; a < size - 1; a++)
 	{
 		double x3 = arr[a][0], y3 = arr[a][1];
-		float value = (x2 - x1)*(y3 - y1) - (x3 - x1)*(y2 - y1);
-		if (value > 0)
+		double value = (x2 - x1)*(y3 - y1) - (x3 - x1)*(y2 - y1);
+		//left else right
+		if (value < 0)
 			arr1[c1++] = arr[a];
 		else
 			arr2[c2++] = arr[a];
 	}
-	findHull(arr1, c1-1, A, B, pts, nPts);
-	findHull(arr2, c2-1, B, A, pts, nPts);
+
+	/*printf("Right arr top\n");
+	for (int a = 0; a < c2; a++)
+		printf("%lf, %lf\n", arr2[a][0], arr2[a][1]);
+	printf("\n");*/
+
+	findHull(arr1, c1, A, B, pts, nPts);
+	findHull(arr2, c2, B, A, pts, nPts);
 
 	free(arr1);
 	free(arr2);
@@ -218,12 +238,18 @@ int main(int argc, char* argv[])
 	double** arr = malloc(sizeof(double*)*50000);
 	for (int a = 0; a < 50000; a++)
 		arr[a] = malloc(sizeof(double)*2);
-	double** pts = malloc(sizeof(double*)*500);
-	for (int a = 0; a < 500; a++)
+	int ptsSize = 100;
+	double** pts = malloc(sizeof(double*)*ptsSize);
+	for (int a = 0; a < ptsSize; a++)
 		pts[a] = malloc(sizeof(double)*2);
 	int numPts = 0;
-
 	int size = 0;
+
+	/*srand(time(NULL));
+	for (int a = 0; a < 50; a++)
+		printf("%d %d\n", rand()%30, rand()%30);*/
+
+
 	loadArr("data/q2", (double**)arr, &size);
 	Data d;
 	d.id = 0;
@@ -235,11 +261,14 @@ int main(int argc, char* argv[])
 
 	divHull(arr, size, pts, &numPts);
 
-	printf("Points\n");
+	printf("Points: %d\n", numPts);
 	for (int a = 0; a < numPts; a++)
 		printf("%lf %lf\n", pts[a][0], pts[a][1]);
 	//free memory
 	for (int a = 0; a < 50000; a++)
 		free(arr[a]);
 	free(arr);
+	for (int a = 0; a < ptsSize; a++)
+		free(pts[a]);
+	free(pts);
 }

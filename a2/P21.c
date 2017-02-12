@@ -96,7 +96,7 @@ void bruteForce(double** arr, int size)
 		}
 	}
 
-	printf("Points\n");
+	printf("Points: %d\n", numPts);
 	for (int a = 0; a < numPts; a++)
 		printf("%lf %lf\n", pts[a][0], pts[a][1]);
 	//free
