@@ -155,12 +155,12 @@ void findHull(double** arr, int size, double* A, double* B, double** pts, int* n
 	}
 	addPoint(pts, arr[index], nPts);
 
-	int size1 = (size-2)/2;
-	int size2 = size1 + size%2;
 	double** arr1 = malloc(sizeof(double*)*size);
 	printf("Test\n");
-	double** arr2 = malloc(sizeof(double*)*(size));
+	double** arr2 = NULL;
 	printf("Test2\n");
+	malloc(10000*sizeof(int*));
+	printf("Test3\n");
 	int c1 = 0, c2 = 0;
 
 	double* C = arr[index];
@@ -195,10 +195,8 @@ void divHull(double** arr, int size, double** pts, int* nPts)
 	addPoint(pts, A, nPts);
 	addPoint(pts, B, nPts);
 
-	int size1 = (size-2)/2;
-	int size2 = size1 + size%2;
-	double** arr1 = malloc(sizeof(double*)*size1);
-	double** arr2 = malloc(sizeof(double*)*size2);
+	double** arr1 = malloc(sizeof(double*)*size);
+	double** arr2 = malloc(sizeof(double*)*size);
 	int c1 = 0, c2 = 0;
 
 	double x1 = A[0], y1 = A[1], x2 = B[0], y2 = B[0];
