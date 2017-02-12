@@ -156,11 +156,7 @@ void findHull(double** arr, int size, double* A, double* B, double** pts, int* n
 	addPoint(pts, arr[index], nPts);
 
 	double** arr1 = malloc(sizeof(double*)*size);
-	printf("Test\n");
-	double** arr2 = NULL;
-	printf("Test2\n");
-	malloc(10000*sizeof(int*));
-	printf("Test3\n");
+	double** arr2 = malloc(size*sizeof(double*));
 	int c1 = 0, c2 = 0;
 
 	double* C = arr[index];
@@ -209,8 +205,8 @@ void divHull(double** arr, int size, double** pts, int* nPts)
 		else
 			arr2[c2++] = arr[a];
 	}
-	findHull(arr1, size1, A, B, pts, nPts);
-	findHull(arr2, size2, B, A, pts, nPts);
+	findHull(arr1, c1-1, A, B, pts, nPts);
+	findHull(arr2, c2-1, B, A, pts, nPts);
 
 	free(arr1);
 	free(arr2);
