@@ -129,7 +129,7 @@ void addPoint(double** pts, double* newpt, int* len)
 
 double dist4(double* A, double* B, double* C)
 {
-
+	//return the distance from the line seg to the point C
 	return ((B[0] - A[0]) * (A[1] - C[1])) - ((B[1] - A[1]) * (A[0] - C[0]));
 }
 

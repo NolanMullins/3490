@@ -12,7 +12,8 @@ Problem
     P11 will use a brute force algorithm to count the number of inversions in an array.
     P12 will use a divide and conqour alogrithm to do the same as P11
 
-    P21 will use a brute force algorithm to find the 
+    P21 will use a brute force algorithm to find the convex hull of a set of points
+    P22 will use a divide and conq algorithm to find the convex hull
 
 
 **********************************

@@ -2,9 +2,7 @@ OBJQ1 = main.o
 OBJQ2 = q2.o
 OBJ = main.o P11.o P12.o P21.o P22.o gen.o
 OBJ2 = $(OBJ:.o=.tmp)
-FLAGS =-Wall -Iinclude -std=c99 -g
-EXE1 = q1
-EXE2 = q2
+FLAGS =-Wall -Iinclude -std=c99
 
 # -pthread
 
@@ -30,7 +28,7 @@ test2:
 #	gcc $(OBJQ1) -o $(EXE1) $(FLAGS)
 
 clean:
-	rm $(OBJQ1) $(OBJQ2) $(EXE1) $(EXE2) $(OBJ) $(OBJ2:.tmp=)
+	rm $(OBJQ1) $(OBJQ2) $(EXE2) $(OBJ) $(OBJ2:.tmp=)
 
 #run:
 #	./$(EXE)
