@@ -16,9 +16,11 @@ void loadArr(char* file, double** arr, int* size)
 
 void addPoint(double** pts, double* newpt, int* len)
 {
+	//check if the point is in the array
 	for (int a = 0; a < *len; a++)
 		if (pts[a][0] == newpt[0] && pts[a][1] == newpt[1])
 			return;
+	//add point
 	pts[*len][0] = newpt[0];
 	pts[*len][1] = newpt[1];
 	(*len)++;
@@ -32,7 +34,7 @@ void bruteForce(double** arr, int size)
 	int numPts = 0;
 	/*for (int a = 0; a < size; a++)
 		printf("%lf %lf\n", arr[a][0], arr[a][1]);*/
-
+	//loop through all pairs of points
 	for (int a = 0; a < size; a++)
 	{
 		for (int b = a+1; b < size; b++)

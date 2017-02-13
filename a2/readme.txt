@@ -25,12 +25,12 @@ Guide
 **********************************
 	Compile
 	type: make
-	output: P11 P12 P21 P22
+	output: P11 P12 P21 P22 main
 
 	Running
-	type: ./P11 or ./P12 etc...
-
-
+	type: ./main
+	this will run all 4 programs
+	./P11 or ./P12 etc will run the indavidual programs
 
 **********************************
 Assumptions

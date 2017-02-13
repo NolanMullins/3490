@@ -1,6 +1,6 @@
 OBJQ1 = main.o
 OBJQ2 = q2.o
-OBJ = P11.o P12.o P21.o P22.o gen.o
+OBJ = main.o P11.o P12.o P21.o P22.o gen.o
 OBJ2 = $(OBJ:.o=.tmp)
 FLAGS =-Wall -Iinclude -std=c99 -g
 EXE1 = q1

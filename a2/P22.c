@@ -149,6 +149,7 @@ void findHull(double** arr, int size, double* A, double* B, double** pts, int* n
 		printf("%lf, %lf\n", arr[a][0], arr[a][1]);
 	printf("\n");*/
 
+	//look for furthest point from the line
 	for (int a = 0; a < size; a++)
 	{
 		double d = dist4(A, B, arr[a]);
@@ -159,6 +160,7 @@ void findHull(double** arr, int size, double* A, double* B, double** pts, int* n
 			index = a;
 		}
 	}
+	//add the furthest point
 	addPoint(pts, arr[index], nPts);
 	double** arr1 = malloc(sizeof(double*)*size);
 	double** arr2 = malloc(sizeof(double*)*size);
@@ -208,7 +210,7 @@ void divHull(double** arr, int size, double** pts, int* nPts)
 	int c1 = 0, c2 = 0;
 
 	double x1 = A[0], y1 = A[1], x2 = B[0], y2 = B[1];
-
+	//split the arrays into to sections based on position to the line
 	for (int a = 1; a < size - 1; a++)
 	{
 		double x3 = arr[a][0], y3 = arr[a][1];
@@ -256,7 +258,6 @@ int main(int argc, char* argv[])
 	d.arr = arr;
 	d.size = size;
 	d.maxThreads = -1;
-	printf("Loaded\n");
 	mergeSort(&d);
 
 	//Timing stuff
