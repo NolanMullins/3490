@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <sys/timeb.h>
 
 void loadArr(char* file, double** arr, int* size)
 {
@@ -259,11 +259,21 @@ int main(int argc, char* argv[])
 	printf("Loaded\n");
 	mergeSort(&d);
 
+	//Timing stuff
+	struct timeb start, end;
+	int dif;
+
+	ftime(&start);
 	divHull(arr, size, pts, &numPts);
+	ftime(&end);
+	dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
+	
 
 	printf("Points: %d\n", numPts);
 	for (int a = 0; a < numPts; a++)
 		printf("%lf %lf\n", pts[a][0], pts[a][1]);
+
+	printf("Div + conq: %dms\n", dif);
 	//free memory
 	for (int a = 0; a < 50000; a++)
 		free(arr[a]);

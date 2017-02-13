@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/timeb.h>
 
 void loadArr(char* file, double** arr, int* size)
 {
@@ -114,8 +115,16 @@ int main(int argc, char* argv[])
 
 	int size = 0;
 	loadArr("data/q2", (double**)arr, &size);
-	printf("Loaded\n");
+	//Timing stuff
+	struct timeb start, end;
+	int dif;
+
+	ftime(&start);
 	bruteForce(arr, size);
+	ftime(&end);
+	dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
+	printf("Div + conq: %dms\n", dif);
+
 	//free memory
 	for (int a = 0; a < 50000; a++)
 		free(arr[a]);
