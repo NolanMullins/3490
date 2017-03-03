@@ -1,5 +1,10 @@
+#define _POSIX_C_SOURCE 199309L
+
+
 #include <stdio.h>
 #include <string.h>
+#include <sys/timeb.h>
+#include <time.h>
 
 int cmp(char* wordA, int sizeA, char* wordB, int sizeB)
 {
@@ -17,6 +22,17 @@ int cmp(char* wordA, int sizeA, char* wordB, int sizeB)
 
 int runP11(char* search, char** arr, int size)
 {
+	//Timing stuff
+    struct timeb start, end;
+    int dif;
+
+    ftime(&start);
+
+  	/*other time
+  	struct timespec start, finish;
+  	double elapsed;
+  	clock_gettime(CLOCK_MONOTONIC, &start);*/
+
 	int c = 0;
 	for (int a = 0; a < size; a++)
 	{
@@ -28,5 +44,14 @@ int runP11(char* search, char** arr, int size)
 				printf("a: %d c: %d, string: %s\n", a,++c, current);
 			//c+=cmp(search, a, current, b);
 	}
+
+	/*clock_gettime(CLOCK_MONOTONIC, &finish);
+	elapsed = (finish.tv_sec - start.tv_sec);
+	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+	printf("%lfms\n", elapsed*1000);*/
+	ftime(&end);
+    dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
+    printf("Brute Force: %dms\n", dif);
+
 	return c;
 }

@@ -32,8 +32,11 @@ int main(int argc, char* argv[])
 {
 	int size = 0;
 	char** arr = loadArr("data/data_4.txt", &size);
-	//FILE* f = fopen("data/data_4.txt", "r");
-	printf("1804289383 has %d matches\n", runP11("1804289383", arr, size));
+
+	char search[32];
+	printf("Enter a number: ");
+	scanf("%s", search);
+	printf("%s has %d matches\n", search, runP11(search, arr, size));
 
 	freeArr(arr, 30000);
 
