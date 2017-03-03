@@ -1,6 +1,5 @@
 #define _POSIX_C_SOURCE 199309L
 
-
 #include <stdio.h>
 #include <string.h>
 #include <sys/timeb.h>
@@ -23,35 +22,33 @@ int cmp(char* wordA, int sizeA, char* wordB, int sizeB)
 int runP11(char* search, char** arr, int size)
 {
 	//Timing stuff
-    struct timeb start, end;
+    /*struct timeb start, end;
     int dif;
+    ftime(&start);*/
 
-    ftime(&start);
-
-  	/*other time
+  	//other time
   	struct timespec start, finish;
   	double elapsed;
-  	clock_gettime(CLOCK_MONOTONIC, &start);*/
+  	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	int c = 0;
 	for (int a = 0; a < size; a++)
 	{
 		char* current = arr[a];
 		int sizeA = strlen(search), sizeB = strlen(current) ;
-
 		if (sizeA == sizeB)
-			if (cmp(search, sizeA, current, sizeB))
-				printf("a: %d c: %d, string: %s\n", a,++c, current);
-			//c+=cmp(search, a, current, b);
+			/*if (cmp(search, sizeA, current, sizeB))
+				printf("a: %d c: %d, string: %s\n", a,++c, current);*/
+			c+=cmp(search, sizeA, current, sizeB);
 	}
 
-	/*clock_gettime(CLOCK_MONOTONIC, &finish);
+	clock_gettime(CLOCK_MONOTONIC, &finish);
 	elapsed = (finish.tv_sec - start.tv_sec);
 	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-	printf("%lfms\n", elapsed*1000);*/
-	ftime(&end);
+	printf("%lfms\n", elapsed*1000);
+	/*ftime(&end);
     dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
-    printf("Brute Force: %dms\n", dif);
+    printf("Brute Force: %dms\n", dif);*/
 
 	return c;
 }
