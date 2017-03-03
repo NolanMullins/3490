@@ -46,6 +46,6 @@ int q1 (char* file)
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
-	q1("data/q1");
+	q1("data_1.txt");
 	return 0;
 }

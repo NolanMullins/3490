@@ -168,6 +168,6 @@ int q2 (char* file)
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
-	q2("data/q1");
+	q2("data_1.txt");
 	return 0;
 }

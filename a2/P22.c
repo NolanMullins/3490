@@ -252,7 +252,7 @@ int main(int argc, char* argv[])
 		printf("%d %d\n", rand()%30, rand()%30);*/
 
 
-	loadArr("data/q2", (double**)arr, &size);
+	loadArr("data_2.txt", (double**)arr, &size);
 	Data d;
 	d.id = 0;
 	d.arr = arr;

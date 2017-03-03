@@ -33,6 +33,9 @@ Guide
 	this will run all 4 programs
 	./P11 or ./P12 etc will run the indavidual programs
 
+	changing data files
+	edit the contents of data_1.txt or data_2.txt to edit what the programs read
+
 **********************************
 Assumptions
 **********************************

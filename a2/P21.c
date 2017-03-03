@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
 		arr[a] = malloc(sizeof(double)*2);
 
 	int size = 0;
-	loadArr("data/q2", (double**)arr, &size);
+	loadArr("data_2.txt", (double**)arr, &size);
 	//Timing stuff
 	struct timeb start, end;
 	int dif;
