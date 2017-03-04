@@ -32,11 +32,12 @@ int main(int argc, char* argv[])
 {
 	int size = 0;
 	char** arr = loadArr("data/data_4.txt", &size);
-
-	char search[32];
+    
+	/*char search[32];
 	printf("Enter a number: ");
 	scanf("%s", search);
-	printf("%s has %d matches\n", search, runP11(search, arr, size));
+	printf("%s has %d matches\n", search, runP11(search, arr, size));*/
+    runP12("1234567890", arr, size);
 
 	freeArr(arr, 30000);
 
