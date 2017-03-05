@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 char* sortWord(char* word)
@@ -28,13 +29,29 @@ int strToI(char* word)
 	return num;
 }
 
+int cmpE(const void* a, const void* b)
+{
+	static int c = 0;
+	c+=1;
+	if (c < 10)
+		printf("%s\n", (const char*)(a));
+	return (strToI((char*)(a)) - strToI((char*)(b)));
+}
+
 char** sortArr(char** arr, int size)
 {
 	for (int a = 0; a < size-1; a++)
 		arr[a] = sortWord(arr[a]);
 
+	for (int a = 0; a < 10; a++)
+		printf("%s\n", arr[a]);
 
-	for (int a = 0; a < size-1; a++)
+	printf("\nSorting\n\n");
+	qsort(arr, sizeof(char*), size, cmpE);
+
+	for (int a = 0; a < 10; a++)
+		printf("%s\n", arr[a]);
+	/*for (int a = 0; a < size-1; a++)
 	{
 		for (int b = a+1; b < size; b++)
 		{
@@ -45,14 +62,14 @@ char** sortArr(char** arr, int size)
 				arr[b] = tmp;
 			}
 		}
-	}
+	}*/
 	return arr;
 }
 
 int runP12(char* search, char** arr, int size)
 {
 	arr = sortArr(arr, size);
-	for (int a = 0; a < 10; a++)
-		printf("%s\n", arr[a]);
+	//for (int a = 0; a < 10; a++)
+		//printf("%s\n", arr[a]);
 	return -1;
 }
