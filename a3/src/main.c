@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
 	freeArr(arr, 30000);
 
-    //runP21("data/data_5.txt");
+    runP21("data/data_5.txt");
     runP22("data/data_5.txt");
 	return 0;
 }
