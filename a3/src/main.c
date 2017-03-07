@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "list.h"
 #include "P11.h"
@@ -37,11 +38,11 @@ int main(int argc, char* argv[])
 	printf("Enter a number: ");
 	scanf("%s", search);
 	printf("%s has %d matches\n", search, runP11(search, arr, size));*/
-    //runP12("1234567890", arr, size);
+    runP12("001", arr, size);
 
 	freeArr(arr, 30000);
 
-    runP21("data/data_5.txt");
-    runP22("data/data_5.txt");
+    //runP21("data/data_5.txt");
+    //runP22("data/data_5.txt");
 	return 0;
 }
