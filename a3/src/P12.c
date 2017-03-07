@@ -68,8 +68,8 @@ char** sortArr(char** arr, int size)
 		printf("%s\n", arr[a]);
 
 	printf("\nSorting - size: %d\n\n", size);
-	//qsort(arr, sizeof(arr[0]), size, cmpE);
-	bubble((void**)arr, size, cmpE);
+	qsort(arr, sizeof(arr[0]), size, cmpE);
+	//bubble((void**)arr, size, cmpE);
 	//printf("done\n");
 	for (int a = 0; a < 10; a++)
 		printf("%s\n", arr[a]);
