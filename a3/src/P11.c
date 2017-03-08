@@ -37,15 +37,18 @@ int runP11(char* search, char** arr, int size)
 		char* current = arr[a];
 		int sizeA = strlen(search), sizeB = strlen(current) ;
 		if (sizeA == sizeB)
-			/*if (cmp(search, sizeA, current, sizeB))
-				printf("a: %d c: %d, string: %s\n", a,++c, current);*/
-			c+=cmp(search, sizeA, current, sizeB);
+		{
+			int tmp = cmp(search, sizeA, current, sizeB);
+			c+= tmp;
+			if (tmp)
+				printf("%s\n", current);
+		}
 	}
 
 	clock_gettime(CLOCK_MONOTONIC, &finish);
 	elapsed = (finish.tv_sec - start.tv_sec);
 	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-	printf("%lfms\n", elapsed*1000);
+	printf("Brute force: %lfms\n", elapsed*1000);
 	/*ftime(&end);
     dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
     printf("Brute Force: %dms\n", dif);*/
