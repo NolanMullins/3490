@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-void runP21(char* file)
+void runP21(char* file, char* search)
 {
 
 	FILE* f = fopen(file, "r");
@@ -15,13 +15,7 @@ void runP21(char* file)
 		string[i++] = c;
 	string[i] = '\0';
 
-	char search[32];
-	printf("Show  me what you got: \n");
-	fgets(search, 32, stdin);
-
 	int size = strlen(search);
-	if (search[size-1] == '\n')
-		search [--size] = '\0';
 
 	//Timing stuff
     /*struct timeb start, end;

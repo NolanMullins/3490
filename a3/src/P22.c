@@ -37,7 +37,7 @@ int nextOcc(char* string, char look, int curIndex)
 	return strlen(string);
 }
 
-void runP22(char* file)
+void runP22(char* file, char* search)
 {
 
 	FILE* f = fopen(file, "r");
@@ -48,14 +48,7 @@ void runP22(char* file)
 		string[i++] = c;
 	string[i] = '\0';
 
-	char search[32];
-	printf("Show  me what you got: \n");
-	fgets(search, 32, stdin);
-
 	int size = strlen(search);
-	if (search[size-1] == '\n')
-		search [--size] = '\0';
-
 	int shiftTable[52] = {[0 ... 51] = size};
 
 	for (int a = 0; a < size; a++)

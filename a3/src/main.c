@@ -35,16 +35,25 @@ int main(int argc, char* argv[])
 	char** arr = loadArr("data/data_4.txt", &size);
     char** arr2 = loadArr("data/data_4.txt", &size);
 
-	char search[32];
+	/*char search[32];
 	printf("Enter a number: ");
 	scanf("%s", search);
 	printf("%s has %d matches\n", search, runP11(search, arr, size));
-    printf("%s has %d matches\n", search, runP12(search, arr, arr2, size));
+    printf("%s has %d matches\n", search, runP12(search, arr, arr2, size));*/
 
 	freeArr(arr, 30000);
     freeArr(arr2, 30000);
 
-    //runP21("data/data_5.txt");
-    //runP22("data/data_5.txt");
+    char search[32];
+    printf("Show  me what you got: \n");
+    fgets(search, 32, stdin);
+
+    int sizeS = strlen(search);
+    if (search[sizeS-1] == '\n')
+        search [--sizeS] = '\0';
+
+    runP21("data/data_5.txt", search);
+    runP22("data/data_5.txt", search);
+    runP23("data/data_5.txt", search);
 	return 0;
 }
