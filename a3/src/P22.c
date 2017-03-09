@@ -10,15 +10,6 @@ int rightMost(char* string, char look)
 	return strlen(string);
 }
 
-int asciiToIndex(char ascii)
-{
-	int charToIndex = (int)ascii;
-	if (charToIndex > 90)
-		charToIndex -= 6;
-	charToIndex-=65;
-	return charToIndex;
-}
-
 int isChar(char test)
 {
 	int val = (int)test;
@@ -28,6 +19,19 @@ int isChar(char test)
 		return 1;
 	return 0;
 }
+
+int asciiToIndex(char ascii)
+{
+	if (!isChar(ascii))
+		return 52;
+	int charToIndex = (int)ascii;
+	if (charToIndex > 90)
+		charToIndex -= 6;
+	charToIndex-=65;
+	return charToIndex;
+}
+
+
 
 int nextOcc(char* string, char look, int curIndex)
 {
@@ -95,7 +99,5 @@ void runP22(char* file, char* search)
 		else
 			index+=size;
 	}
-
-	printf("%d - %d\n", count, shifts);
-
+	printf("Horsepool:\tfound: %d shifts: %d\n", count, shifts);
 }

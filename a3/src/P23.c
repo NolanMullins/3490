@@ -4,11 +4,41 @@
 
 #include "P22.h"
 
+void suffixTable(char* pattern, int* table, int size)
+{
+	int border[size+1];
+	//*border = 0;
+	for (int a = 0; a < size+1; a++)
+		table[a] = 0;
+    int a = size, b = size+1;
+    border[a]=b;
+    while (a > 0)
+    {
+        while (b <= size && pattern[a-1] != pattern[b-1])
+        {
+            if (table[b]==0)
+            	table[b]=b-a;
+            b=border[b];
+        }
+        a-=1; 
+        b-=1;
+        border[a] = b;
+    }
+    b = border[0];
+    for(int c = 0; c <= size; c++)
+    {
+    	if (table[c] == 0)
+    		table[c] = b;
+    	if (c == b)
+    		b = border[b];
+    }
+}
+
 void runP23(char* file, char* search)
 {
 
 	FILE* f = fopen(file, "r");
-	int i =0;
+	int i=0;
 	char c;
 	char string[3296592];
 	while ((c = getc(f)) != EOF)
@@ -16,53 +46,48 @@ void runP23(char* file, char* search)
 	string[i] = '\0';
 
 	int size = strlen(search);
-	int shiftTable[52] = {[0 ... 51] = size};
-
+	int shiftTable[52] = {[0 ... 51] = -1};
 	for (int a = 0; a < size; a++)
-	{
-		shiftTable[asciiToIndex(search[a])] = rightMost(search, search[a]);
-	}
+		shiftTable[asciiToIndex(search[a])]=a;
 
-	
-	/*for (int a = 0; a < 52; a++)
-	{
-		int index = a+65;
-		if (index > 90)
-			index += 6;
-		printf("%c - %d\n", (char)(index), shiftTable[asciiToIndex((char)index)]);
-	}*/
-	int index = size-1;
-	int count = 0;
-	int shifts = 0;
-	while (index < 3296592)
-	{
-		shifts += 1;
-		if (isChar(string[index]))
-		{
-			int shift = shiftTable[asciiToIndex(string[index])];
-			if (shift == 0)
-			{
-				int flag = 1;
-				for (int b = 0; b < size; b++)
-				{
-					//printf("%c = %c",index-size+1+b, search[b]);
-					if (string[index-size+1+b] != search[b])
-					{
-						flag = 0;
-						break;
-					}
-				}
-				if (flag)
-					count++;
-				index+=size;
-			}
-			else
-				index += shift;
-		}
-		else
-			index+=size;
-	}
+	//for (int a = 0; a < 52; a++)
+		//printf("%d : %d\n", a, shiftTable[a]);
 
-	printf("%d - %d\n", count, shifts);
+	int suffix[size+1];
+	suffix[size] = 0;
+	suffixTable(search, suffix, size);
 
+	i=0;
+    int j,found=0, tmpShifts=0;
+    while (i<=3296592-size)
+    {
+    	tmpShifts++;
+        j=size-1;
+        while (j>=0 && search[j]==string[i+j]) 
+        	j--;
+        if (j<0)
+        {
+            found++;
+           // for (int a = i; a < i+size; a++)
+            	//printf("%c", string[a]);
+            //printf("\n");
+            i+=suffix[0];
+        }
+        else 
+        {
+        	int charShift = 0;
+        	//check if current char is in bounds of the shift table
+        	if (isChar(string[i+j]))
+        		charShift = shiftTable[asciiToIndex(string[i+j])];
+        	else 
+        		charShift = -1;
+        	//calc offset
+        	int shift = j-charShift;
+        	//check for bigger offset by suffix
+        	if (suffix[j+1] > shift)
+        		shift = suffix[j+1];
+        	i+=shift;
+        }
+    }
+    printf("Boyer-Moore:\tfound: %d shifts: %d\n", found, tmpShifts);
 }
