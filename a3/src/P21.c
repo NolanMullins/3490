@@ -29,12 +29,14 @@ void runP21(char* file, char* search)
 
 	int count = 0;
 	int switches = 0;
-	for (int a = 0; a < 3296591 - size; a++)
+	for (int a = 0; a <= 3296592 - size; a++)
 	{
 		switches++;
+
 		if (string[a] == search[0])
 		{
 			int flag = 1;
+			//printf("%d\n", a);
 			for (int b = 0; b < size; b++)
 			{
 				if (string[a+b] != search[b])

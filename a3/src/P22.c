@@ -1,6 +1,9 @@
+#define _POSIX_C_SOURCE 199309L
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 int rightMost(char* string, char look)
 {
@@ -55,49 +58,57 @@ void runP22(char* file, char* search)
 	int size = strlen(search);
 	int shiftTable[52] = {[0 ... 51] = size};
 
-	for (int a = 0; a < size; a++)
-	{
-		shiftTable[asciiToIndex(search[a])] = rightMost(search, search[a]);
-	}
+	for (int a = 0; a < size-1; a++)
+		shiftTable[asciiToIndex(search[a])] = size-1-a;
 
-	
-	/*for (int a = 0; a < 52; a++)
-	{
-		int index = a+65;
-		if (index > 90)
-			index += 6;
-		printf("%c - %d\n", (char)(index), shiftTable[asciiToIndex((char)index)]);
-	}*/
 	int index = size-1;
 	int count = 0;
 	int shifts = 0;
+
+	//Timing stuff
+    /*struct timeb start, end;
+    int dif;
+    ftime(&start);*/
+
+  	//other time
+  	struct timespec start, finish;
+  	double elapsed;
+  	clock_gettime(CLOCK_MONOTONIC, &start);
+
 	while (index < 3296592)
 	{
 		shifts += 1;
-		if (isChar(string[index]))
+		//printf("Test %d\n", index);
+		if (!isChar(string[index]))
 		{
-			int shift = shiftTable[asciiToIndex(string[index])];
-			if (shift == 0)
-			{
-				int flag = 1;
-				for (int b = 0; b < size; b++)
-				{
-					//printf("%c = %c",index-size+1+b, search[b]);
-					if (string[index-size+1+b] != search[b])
-					{
-						flag = 0;
-						break;
-					}
-				}
-				if (flag)
-					count++;
-				index+=size;
-			}
-			else
-				index += shift;
-		}
-		else
 			index+=size;
+			continue;
+		}
+		// /printf("%d\n", index);
+		int shift = shiftTable[asciiToIndex(string[index])];
+		int flag = 1;
+		for (int a = 0; a < size; a++)
+			if (string[index-a] != search[size-1-a])
+			{
+				flag = 0;
+				break;
+			}
+
+		if (flag)
+			count++;
+		if (shift == 0)
+			shift = size;
+		index+=shift;
 	}
+
+	clock_gettime(CLOCK_MONOTONIC, &finish);
+	elapsed = (finish.tv_sec - start.tv_sec);
+	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+	
+	/*ftime(&end);
+    dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
+    printf("Brute Force: %dms\n", dif);*/
+
 	printf("Horsepool:\tfound: %d shifts: %d\n", count, shifts);
+	printf("Time: %lfms\n", elapsed*1000);
 }
