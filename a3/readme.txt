@@ -1,27 +1,30 @@
 /****************************************
  * Nolan Mullins
  * 0939720
- * 12/02/2017
- * cis3490 - A2
+ * 12/03/2017
+ * cis3490 - A3
  ****************************************/
 
 
 **********************************
 Problem
 **********************************
-    
+    P1 - Search through a set of numbers and look for matching anagrams
+    P2 - search through a set of characters looking for a key
 
 **********************************
 Algorithm
 **********************************
-	
+	Brute force alogorithm for poth problems
+	Presorted search for anagrams
+	Horsepool and boyer-moore for searching keys
 
 **********************************
 Guide
 **********************************
 	Compile
 	type: make
-	output: 
+	output: run
 
 	Running
 	type: ./run
@@ -47,9 +50,21 @@ Performance analysis
 	--------------------------------------------------------------------------------------------------------------------------------------------
 	avg																								%99.36					%118.33
 	
+	********
+	Analysis
+	********
+		From what i have oberved boyermoore and horepool are greatly spead up with larger search terms.
+		With boyer-moore the key needs to have repition in order for boyer to really doing anything faster else
+		it just slows it down. Brute force seamed to perform consitently. The benifit of boyer-moore over 
+		horsepool %1 less shifts vs an %18 gain in time taken.
 	
 	
 **********************************
 Assumptions
 **********************************
 	**The user will not enter a 0 char search term**
+
+**********************************
+Source
+**********************************
+	http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/bmen.htm
