@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <sys/timeb.h>
 
 void runP21(char* file, char* search)
 {
@@ -18,14 +19,14 @@ void runP21(char* file, char* search)
 	int size = strlen(search);
 
 	//Timing stuff
-    /*struct timeb start, end;
+    struct timeb start, end;
     int dif;
-    ftime(&start);*/
+    ftime(&start);
 
   	//other time
-  	struct timespec start, finish;
+  	/*struct timespec start, finish;
   	double elapsed;
-  	clock_gettime(CLOCK_MONOTONIC, &start);
+  	clock_gettime(CLOCK_MONOTONIC, &start);*/
 
 	int count = 0;
 	int switches = 0;
@@ -50,13 +51,14 @@ void runP21(char* file, char* search)
 		}
 	}
 
-	clock_gettime(CLOCK_MONOTONIC, &finish);
+	/*clock_gettime(CLOCK_MONOTONIC, &finish);
 	elapsed = (finish.tv_sec - start.tv_sec);
-	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;*/
 	
-	/*ftime(&end);
+	ftime(&end);
     dif = (int) (1000.0 * (end.time - start.time) + (end.millitm - start.millitm));
-    printf("Brute Force: %dms\n", dif);*/
+    
 	printf("Brute force:\tfound: %d shifts: %d\n", count, switches);
-	printf("Time: %lfms\n", elapsed*1000);
+	//printf("Time: %lfms\n", elapsed*1000);
+	printf("Time: %dms\n", dif);
 }
